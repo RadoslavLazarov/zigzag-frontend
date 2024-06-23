@@ -193,12 +193,14 @@ const DefaultLayout = () => {
               onClick={() => navigateToPage("/")}
             />
           </ListItemButton>
-          <ListItemButton onClick={() => navigateToPage("/venues")}>
-            <ListItemIcon>
-              <PlaceIcon />
-            </ListItemIcon>
-            <ListItemText primary="Venues" />
-          </ListItemButton>
+          {user?.roles?.indexOf("ADMIN") > -1 && (
+            <ListItemButton onClick={() => navigateToPage("/venues")}>
+              <ListItemIcon>
+                <PlaceIcon />
+              </ListItemIcon>
+              <ListItemText primary="Venues" />
+            </ListItemButton>
+          )}
         </List>
       </Drawer>
       <Box

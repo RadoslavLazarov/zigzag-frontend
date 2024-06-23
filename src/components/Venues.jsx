@@ -27,6 +27,9 @@ const Venues = ({ categoryId }) => {
     {
       variables: { id: categoryId, first: rowsPerPage, after: null },
       notifyOnNetworkStatusChange: true,
+    },
+    {
+      onError: () => {},
     }
   );
 

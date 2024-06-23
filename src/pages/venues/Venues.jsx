@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { gql, useQuery, useLazyQuery } from "@apollo/client";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { gql, useQuery } from "@apollo/client";
 
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -13,32 +12,18 @@ import Select from "@mui/material/Select";
 
 import Venues from "../../components/Venues";
 import Loading from "../../components/loading/Loading";
-import { setLoading } from "../../store/slices/loading/loadingSlice";
-import {
-  VENUE_CATEGORIES,
-  VENUES_BY_CATEGORY_ID,
-} from "../../graphql/queries/venues";
+import { VENUE_CATEGORIES } from "../../graphql/queries/venues";
 
 const VenueCategries = () => {
-  const dispatch = useDispatch();
-  // const isLoading = useSelector((state) => state.loading.isLoading);
   const [venueCategoryId, setVenueCategoryId] = useState("");
-  const { loading, error, data } = useQuery(gql(VENUE_CATEGORIES));
-  // const [getVenuesByCategoryId, { venuesLoading, venuesError, venues }] =
-  //   useLazyQuery(gql(VENUES_BY_CATEGORY_ID));
+  const { loading, error, data } = useQuery(gql(VENUE_CATEGORIES), {
+    onError: () => {},
+  });
 
   const handleChange = (event) => {
     var venueCategoryId = event.target.value;
-    console.log("handleChange", venueCategoryId);
     setVenueCategoryId(venueCategoryId);
-    // getVenuesByCategoryId({
-    //   variables: { id: venueCategoryId },
-    // });
   };
-
-  useEffect(() => {
-    console.log(venueCategoryId);
-  });
 
   if (loading) {
     return <Loading />;
@@ -76,7 +61,7 @@ const VenueCategries = () => {
               label="Venue Categories"
               onChange={handleChange}
             >
-              {data.venueCategories.map((item) => (
+              {data?.venueCategories?.map((item) => (
                 <MenuItem key={item.id} value={item.id}>
                   {item.name}
                 </MenuItem>
